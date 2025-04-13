@@ -1,4 +1,4 @@
-# **Implementation of Single-Flow Spread Sketches**
+# **Implementation of Single-Flow Spread Sketches (Bitmap, Probabilistic Bitmap, and HyperLogLog)**
 
 ## **Overview**
 This repository contains Java implementations of three cardinality estimation techniques widely used in data streaming and network measurement systems:
@@ -18,7 +18,7 @@ Each estimator was tested on flows of various spread sizes and wrote the results
 - For each distinct item, a bit position is randomly set to 1.
 - After processing, estimates spread using:
   
-  \[ \text{Estimated} = -m \cdot \ln(V/m) \]
+  `Estimated = -m * ln(V/m)`
   where `V` is the number of zero bits.
 
 ### **2. Probabilistic Bitmap**
@@ -26,14 +26,14 @@ Each estimator was tested on flows of various spread sizes and wrote the results
 - Reduces overhead by subsampling.
 - Estimation formula:
 
-  \[ \text{Estimated} = -\frac{m}{p} \cdot \ln(V/m) \]
+  `Estimated = -(m/p) * ln(V/m)`
 
 ### **3. HyperLogLog (HLL)**
 - Uses `m` registers (e.g., 256), each 5 bits.
 - Hashes elements and tracks the number of leading zeros in hash suffixes.
 - Aggregates estimates across registers with a bias correction factor:
 
-  \[ E = \alpha_m \cdot m^2 / \sum (2^{-R[i]}) \]
+  `E = alpha_m * m^2 / sum(2^(-R[i]))`
 
 - Applies **small range correction** when necessary.
 
